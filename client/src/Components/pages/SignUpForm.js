@@ -40,7 +40,7 @@ class SignUpForm extends Component {
         <Form onSubmit={this.onSubmit}>
           <Form.Group>
             <Form.Label className="FormField__Label" htmlFor="name">Username</Form.Label>
-            <Form.Control type="text" id="username" className="FormField__Input" placeholder="Enter your full name" name="name" value={this.state.name} onChange={this.onChange} autoComplete="off" />
+            <Form.Control type="text" id="username" className="FormField__Input" placeholder="Enter your full name" name="username" value={this.state.username} onChange={this.onChange} autoComplete="off" />
           </Form.Group>
           <Form.Group>
             <Form.Label className="FormField__Label" htmlFor="password">Password</Form.Label>
@@ -48,7 +48,7 @@ class SignUpForm extends Component {
           </Form.Group>
           <Form.Group >
             <Form.Label className="FormField__Label" htmlFor="username">Confirm Password</Form.Label>
-            <Form.Control type="password" id="password" className="FormField__Input" placeholder="Enter your username" name="username" value={this.state.username} onChange={this.onChange} />
+            <Form.Control type="password" id="password" className="FormField__Input" placeholder="Enter your username" name="password" value={this.state.password} onChange={this.onChange} />
           </Form.Group>
 
 

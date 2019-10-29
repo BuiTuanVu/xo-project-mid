@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import SignUpForm from './Components/pages/SignUpForm';
 import SignInForm from './Components/pages/SignInForm';
+import Home from './Components/Home/Home'
 import logoxo from './logoxo.png'
 import './App.css';
 
@@ -26,6 +27,7 @@ class App extends React.PureComponent {
 
             <Route exact path="/" component={SignInForm} />
             <Route path="/sign-up" component={SignUpForm} />
+            <Router path="/home" component={Home} />
           </div>
 
         </div>

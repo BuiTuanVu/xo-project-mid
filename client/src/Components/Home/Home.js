@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Card, Button } from 'react-bootstrap';
-import logoxo from '../logoxo.png';
+import logoxo from '../../logoxo.png';
 import './Home.css'
 
 export default function Home() {
