@@ -4,6 +4,7 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+const bcrypt = require('bcryptjs');
 
 const User = require('../model/user');
 
@@ -13,20 +14,37 @@ router.get('/', async (req, res) => {
 
 router.post('/register', async (req, res, next) => {
   //Checking already account
-  const nameExist = await User.findOne({ username: req.body.username });
-  if (nameExist) return res.status(400).send('Account already exist');
+
 
   //Hash password
 
 
   const { username, password } = req.body;
   const user = new User({ username, password });
-  try {
-    const savedUser = await user.save();
-    res.send(savedUser);
-  } catch (err) {
-    res.status(400).send(err);
-  }
+
+  User.findOne({ username: req.body.username })
+    .then(exist => {
+      if (!exist) {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          user.password = hash
+          user.save()
+            .then(user => {
+              res.json({ status: user.username + ' registered!' })
+            })
+            .catch(err => {
+              res.send('error' + err);
+            })
+
+        })
+      } else {
+        res.json({ error: 'User already exists' })
+      }
+    })
+    .catch(err => {
+      res.send('error: ' + err)
+    })
+
+
 })
 
 

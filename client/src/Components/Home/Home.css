@@ -1,0 +1,9 @@
+.back-ground {
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+}
+#btn-mode {
+  background-color: #034e65;
+}
