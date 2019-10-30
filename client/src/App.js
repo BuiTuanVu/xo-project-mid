@@ -19,7 +19,7 @@ class App extends React.PureComponent {
           <Switch>
             <Route exact path="/" component={FirstPage} />
             <Route exact path="/sign-up" component={SignUpForm} />
-            <Route path="/game" component={Game} />
+
             <PrivateRoute path="/home" component={Home} />
           </Switch>
 

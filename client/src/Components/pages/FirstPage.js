@@ -27,10 +27,7 @@ class FirstPage extends React.PureComponent {
                         or
                             <NavLink to="/sign-up" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
                     </div>
-                    <Switch>
-                        <Route exact path="/" component={SignInForm} />
-                        <Route path="/sign-up" component={SignUpForm} />
-                    </Switch>
+                    <SignInForm />
                 </div>
 
             </div>
