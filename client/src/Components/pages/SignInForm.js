@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import { login } from '../../Actions/userActions'
+import { login } from '../../Actions/authActions';
+import { connect } from 'react-redux';
 
 class SignInForm extends Component {
   constructor(props) {
@@ -9,12 +10,24 @@ class SignInForm extends Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuth) {
+      this.props.history.push("/home"); // push user to dashboard when they login
+    }
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -25,14 +38,12 @@ class SignInForm extends Component {
       username: this.state.username,
       password: this.state.password
     }
-    login(user).then(res => {
-      if (res) {
-        this.props.history.push(`/profile`)
-      }
-    })
+    this.props.login(user);
   }
 
   render() {
+
+    const { errors } = this.state;
     return (
       <div className="FormCenter">
         <Form onSubmit={this.onSubmit} className="FormFields">
@@ -58,6 +69,7 @@ class SignInForm extends Component {
               onChange={this.onChange} />
           </Form.Group>
 
+
           <Form.Group className="FormField">
             <Button type="submit" className="FormField__Button mr-20">Sign In</Button> <Link to="/" className="FormField__Link">Create an account</Link>
           </Form.Group>
@@ -77,4 +89,11 @@ class SignInForm extends Component {
   }
 }
 
-export default SignInForm;
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+export default connect(
+  mapStateToProps,
+  { login }
+)(SignInForm);

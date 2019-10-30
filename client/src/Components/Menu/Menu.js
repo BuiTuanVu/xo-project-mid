@@ -5,20 +5,19 @@ import { Navbar, Nav } from 'react-bootstrap';
 
 
 class Menu extends Component {
+    constructor(props) {
+        super(props)
+        this.logOut = this.logOut.bind(this)
+    }
+
     logOut(e) {
-        e.preventDefaut()
-        localStorage.removeItem('usertoken')
-        this.props.history.push(`/`)
+        e.preventDefault();
+        localStorage.removeItem('token');
+        this.props.history.push('/');
 
     }
     render() {
-        const userLink = (
-            <Nav>
-                <Nav.Link >Log Out</Nav.Link>
-                <Nav.Link eventKey={1} as={Link} to="/profile">
-                    Sign up</Nav.Link>
-            </Nav>
-        )
+
 
         return (
             <div>
@@ -30,9 +29,13 @@ class Menu extends Component {
                             <Nav.Link as={Link}
                                 to="/features">Features</Nav.Link>
                             <Nav.Link href="/about">About</Nav.Link>
-                            <userLink />
-                        </Nav>
 
+                        </Nav>
+                        <Nav>
+                            <Nav.Link as={Link} to="/login">Profile</Nav.Link>
+                            <Nav.Link eventKey={1} onClick={this.logOut}>
+                                Logout</Nav.Link>
+                        </Nav>
                     </Navbar.Collapse>
                 </Navbar>
             </div>
