@@ -4,7 +4,8 @@ import { START_LOGIN, LOGIN_SUCCESS, LOGIN_ERROR } from "../Constants/authTypes"
 const initState = {
     isAuth: false,
     user: {},
-    loading: false
+    loading: false,
+    errors: "",
 };
 const authReducer = (state = initState, action) => {
     switch (action.type) {
@@ -22,7 +23,11 @@ const authReducer = (state = initState, action) => {
         }
 
         case LOGIN_ERROR:
-            return action.payload;
+            return {
+                ...state,
+
+                errors: action.payload,
+            };
         default:
             return state
     }

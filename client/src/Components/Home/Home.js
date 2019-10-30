@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter } from "react-router-dom";
 import { Card, Button } from 'react-bootstrap';
 import logoxo from '../../logoxo.png';
 import './Home.css'
@@ -7,7 +7,7 @@ import Menu from '../Menu/Menu';
 
 export default function Home() {
     return (
-        <div>
+        <div key={this.props.location.pathname}>
 
             <Menu></Menu>
             <main>
@@ -23,6 +23,7 @@ export default function Home() {
                 </Card>
 
             </main>
+
         </div>
     )
 }

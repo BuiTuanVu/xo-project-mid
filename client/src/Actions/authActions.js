@@ -14,7 +14,7 @@ export const register = (userData, history) => dispatch => {
         .then(res => history.push("/"))
         .catch(err => dispatch({
             type: LOGIN_ERROR,
-            payload: err.response.data
+            payload: err.response.data.message
         }))
 }
 
@@ -26,15 +26,19 @@ export const login = userData => dispatch => {
         }).then(res => {
 
             const { token } = res.data;
+
+            console.log(res.data);
             localStorage.setItem("jwtToken", token);
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(loginSuccess(decoded));
         })
-        .catch(err => dispatch({
-            type: LOGIN_ERROR,
-            payload: err
-        }))
+        .catch(err =>
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: err.response.data.message
+            })
+        )
 }
 
 export const loginSuccess = decoded => {

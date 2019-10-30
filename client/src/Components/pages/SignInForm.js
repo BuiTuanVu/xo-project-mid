@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { login } from '../../Actions/authActions';
 import { connect } from 'react-redux';
 
@@ -11,20 +11,21 @@ class SignInForm extends Component {
     this.state = {
       username: '',
       password: '',
-      errors: {}
+      errors: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-
+  //call function when props has changed
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuth) {
-      this.props.history.push("/home"); // push user to dashboard when they login
+      const { history } = this.props
+      history.push('/home'); // push user to Home pages when they login
     }
-    if (nextProps.errors) {
+    if (nextProps.auth.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.auth.errors
       });
     }
   }
@@ -39,15 +40,24 @@ class SignInForm extends Component {
       password: this.state.password
     }
     this.props.login(user);
+
   }
 
   render() {
 
     const { errors } = this.state;
+    const { match, location, history } = this.props
+
     return (
       <div className="FormCenter">
+        <h5 variant="danger">
+          {errors}
+        </h5>
+
         <Form onSubmit={this.onSubmit} className="FormFields">
+
           <Form.Group >
+
             <Form.Label className="FormField__Label" htmlFor="username">Username</Form.Label>
             <Form.Control id="username"
               className="FormField__Input"
@@ -96,4 +106,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { login }
-)(SignInForm);
+)(withRouter(SignInForm));

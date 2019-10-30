@@ -62,7 +62,7 @@ class SignUpForm extends Component {
 
 
           <div className="FormField">
-            <Button type="submit" className="FormField__Button mr-20">Sign Up</Button> <Link to="/sign-in" className="FormField__Link">I'm already member</Link>
+            <Button type="submit" className="FormField__Button mr-20">Sign Up</Button> <Link to="/" className="FormField__Link">I'm already member</Link>
           </div>
 
           <span className="red-text">{errors.password2}</span>

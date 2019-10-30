@@ -19,14 +19,14 @@ passport.use(new LocalStrategy({
             .then(user => {
                 if (user) {
                     if (bcrypt.compareSync(password, user.password)) {
-                        return cb(null, user, { message: 'Logged In Successfully' });
+                        return cb(null, user, { message: 'Logged in Successfully.' });
                     }
                     else {
-                        return cb(null, false, { message: 'Incorrect email or password.' });
+                        return cb(null, false, { message: 'Incorrect username or password.' });
                     }
                 }
                 else {
-                    res.json({ error: "User does not exist" })
+                    return cb(null, false, { message: 'Username doest not exist.' });
                 }
                 // if (!user) {
                 //     return cb(null, false, { message: 'Incorrect email or password.' });
