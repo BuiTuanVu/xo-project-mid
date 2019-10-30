@@ -46,7 +46,7 @@ class SignInForm extends Component {
   render() {
 
     const { errors } = this.state;
-    const { match, location, history } = this.props
+
 
     return (
       <div className="FormCenter">

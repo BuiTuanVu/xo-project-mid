@@ -7,7 +7,7 @@ import Menu from '../Menu/Menu';
 
 export default function Home() {
     return (
-        <div key={this.props.location.pathname}>
+        <div>
 
             <Menu></Menu>
             <main>
