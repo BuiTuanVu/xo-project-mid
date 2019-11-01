@@ -72,8 +72,6 @@ const changeSquares = (state, i) => {
 }
 
 
-
-
 const restart = (state) => {
     const history = state.history.slice()[0];
 
