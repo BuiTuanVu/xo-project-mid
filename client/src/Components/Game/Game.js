@@ -5,6 +5,7 @@ import './Game.css';
 import { calculateWinner } from '../../Reducers/gameReducer';
 
 import { clickSquare, jumpTo, sort, restart } from '../../Actions/gameActions';
+import ChatForm from './ChatForm/ChatForm';
 
 const Game = class extends React.PureComponent {
     constructor(props) {
@@ -59,6 +60,9 @@ const Game = class extends React.PureComponent {
                     </div>
                     <ol reversed={isReverse ? 'reverse' : ''}>{isReverse ? moves.reverse() : moves}</ol>
 
+                </div>
+                <div>
+                    <ChatForm />
                 </div>
             </div>
         );

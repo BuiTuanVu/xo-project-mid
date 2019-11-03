@@ -68,7 +68,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-
+console.log('Server is running')
 
 
 module.exports = app;

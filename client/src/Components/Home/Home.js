@@ -5,6 +5,7 @@ import logoxo from '../../logoxo.png';
 import './Home.css'
 import Menu from '../Menu/Menu';
 import Game from '../Game/Game'
+import GameMode from './GameMode';
 
 export default function Home() {
 
@@ -14,10 +15,10 @@ export default function Home() {
             <Menu></Menu>
             <main>
                 <Switch>
-                    <Route exact path="/home/">
-                        <DashMode />
+                    <Route exact path="/home">
+                        <GameMode />
                     </Route>
-                    <Route path="/home/game/">
+                    <Route path="/home/game">
                         <Game />
                     </Route>
 
@@ -27,19 +28,5 @@ export default function Home() {
     )
 }
 
-function DashMode() {
-    return (
 
-        <Card className="back-ground" >
-            <Card.Img variant="top" src={logoxo} />
-            <Card.Body>
-                <Card.Title className="text-center">Choose mode you want</Card.Title>
-
-                <Button as={Link} to="/home/game" className="col-12" variant="primary" id="btn-mode">Play with machine</Button>
-                <Button as={Link} to="/home/game" className="col-12 mt-3" variant="primary" id="btn-mode">Play with others</Button>
-
-            </Card.Body>
-        </Card>
-    )
-}
 

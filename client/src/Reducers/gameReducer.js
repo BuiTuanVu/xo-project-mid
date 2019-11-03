@@ -59,6 +59,16 @@ const changeSquares = (state, i) => {
 
     const size = Math.sqrt(history[0].squares.length);
     const location = [Math.floor(i / size) + 1, (i % size) + 1].join(",")
+
+
+
+    // squares[i] = 'X';
+    // do {
+    //     var random = Math.floor(Math.random() * 200);
+    // } while (squares[random] !== null)
+    // squares[random] = 'O';
+    // state.xIsNext = true;
+
     squares[i] = state.xIsNext ? 'X' : 'O';
     // eslint-disable-next-line consistent-return
     return ({
