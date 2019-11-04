@@ -1,22 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Board from './Board';
 import './Game.css';
 import { calculateWinner } from '../../Reducers/gameReducer';
-
 import { clickSquare, jumpTo, sort, restart } from '../../Actions/gameActions';
 import ChatForm from './ChatForm/ChatForm';
+import io from 'socket.io-client';
+import queryString from 'query-string';
+import { withRouter } from 'react-router-dom';
 
+
+let socket;
+const ENDPOINT = 'localhost:4000';
+socket = io(ENDPOINT);
 const Game = class extends React.PureComponent {
     constructor(props) {
         super(props)
+
+
+        socket.on('moveMade', (id) => {
+            console.dir(id)
+            this.props.clickSquare(id);
+        })
     }
+
+    componentDidMount() {
+        const { name, room } = queryString.parse(this.props.location.search);
+        socket.emit('join', { name: name, room: room + '12' }, (error) => {
+            console.log('Game is running socket joining')
+            if (error) {
+                alert(error);
+            }
+        });
+    }
+    clickAt(id) {
+        socket.emit('makeMove', id)
+    }
+
     render() {
-        const { history } = this.props;
-        const { stepNumber } = this.props;
-        const { xIsNext } = this.props;
-        const { isReverse } = this.props;
-        const { restart } = this.props;
+
+
+
+
+        const { history, stepNumber, xIsNext, isReverse, restart } = this.props;
         const current = history[stepNumber];
         const squares = current.squares.slice();
         const winner = calculateWinner(squares);
@@ -44,7 +70,7 @@ const Game = class extends React.PureComponent {
             <div className="game">
 
                 <div className="game-board">
-                    <Board squares={squares} onClick={(i) => this.props.clickSquare(i)} winner={winner && winner.winLocation} />
+                    <Board squares={squares} onClick={(i) => this.clickAt(i)} winner={winner && winner.winLocation} />
                 </div>
                 <div className="game-info">
                     <div className="row">
@@ -84,4 +110,4 @@ const mapDispatchToProps = (dispatch) => ({
     restart: () => dispatch(restart())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Game));

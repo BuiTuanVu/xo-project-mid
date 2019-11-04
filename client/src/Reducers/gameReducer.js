@@ -1,5 +1,5 @@
 import { CLICK_SQUARE, RESTART, SORT, JUMP_TO } from '../Constants/types';
-
+import io from 'socket.io-client';
 
 const initState = {
     history: [{
