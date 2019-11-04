@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 
 const GameMode = ({ user }) => {
     const [name, setName] = useState(user.user.username);
-    const [room, setRoom] = useState(user.user.username);
+    const [room, setRoom] = useState('room1');
 
     console.log(user.user.username)
     return (
