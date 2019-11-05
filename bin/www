@@ -50,11 +50,17 @@ io.on('connect', (socket) => {
 
     callback();
   });
-  socket.on('makeMove', (id) => {
+
+  socket.on('makeMove', (data) => {
+    const { name, id } = data;
     console.log('A click at ' + id)
     const user = getUser(socket.id);
-    io.to(user.room).emit('moveMade', id);
+    console.log(user)
+
+    io.to(user.room).emit('moveMade', { user: name, id: id });
   })
+
+
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id);

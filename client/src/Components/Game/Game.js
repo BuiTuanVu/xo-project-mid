@@ -18,10 +18,25 @@ const Game = class extends React.PureComponent {
         super(props)
 
 
-        socket.on('moveMade', (id) => {
-            console.dir(id)
+        socket.on('moveMade', (data) => {
+            const { user, id } = data;
+            console.log('user' + user);
+
+            const { name } = queryString.parse(this.props.location.search);
+            let turn;
+            turn = name === user ? false : true;
+            console.log('Turn: ' + turn)
+
+            this.setState({ myTurn: turn, player: name });
+            console.log('id' + id);
             this.props.clickSquare(id);
+
         })
+
+        this.state = {
+            myTurn: true,
+            player: '',
+        }
     }
 
     componentDidMount() {
@@ -34,7 +49,13 @@ const Game = class extends React.PureComponent {
         });
     }
     clickAt(id) {
-        socket.emit('makeMove', id)
+        if (!this.state.myTurn)
+            return;
+
+        const { name } = queryString.parse(this.props.location.search)
+        socket.emit('makeMove', { name, id });
+
+
     }
 
     render() {
