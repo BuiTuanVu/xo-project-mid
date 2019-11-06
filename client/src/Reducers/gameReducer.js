@@ -1,5 +1,7 @@
-import { CLICK_SQUARE, RESTART, SORT, JUMP_TO } from '../Constants/types';
+import { CLICK_SQUARE, RESTART, SORT, JUMP_TO, CHANGE_MODE } from '../Constants/types';
 import io from 'socket.io-client';
+//import { minimax } from './aiTurn';
+import { findAiMove } from './AIPlayer'
 
 const initState = {
     history: [{
@@ -9,6 +11,8 @@ const initState = {
     xIsNext: true,
     stepNumber: 0,
     isReverse: false,
+    mode: true,
+    isWaiting: true,
 };
 
 export const calculateWinner = (squares) => {
@@ -49,6 +53,8 @@ export const calculateWinner = (squares) => {
     return null;
 }
 
+
+
 const changeSquares = (state, i) => {
     const history = state.history.slice(0, state.stepNumber + 1);
     const current = history[history.length - 1]; // Get the last element of history
@@ -62,15 +68,28 @@ const changeSquares = (state, i) => {
 
 
 
-    // squares[i] = 'X';
+    //squares[i] = 'X';
     // do {
     //     var random = Math.floor(Math.random() * 200);
     // } while (squares[random] !== null)
     // squares[random] = 'O';
-    // state.xIsNext = true;
+
+    //const bestMove = minimax(squares);
+    //squares[bestMove] = 'O'
+    //state.xIsNext = true;
+    if (state.mode === true) {
+
+        squares[i] = 'X';
+        do {
+            var random = Math.floor(Math.random() * 200);
+        } while (squares[random] !== null)
+        squares[random] = 'O';
+        state.xIsNext = true;
+
+    }
 
     squares[i] = state.xIsNext ? 'X' : 'O';
-    // eslint-disable-next-line consistent-return
+
     return ({
         history: history.concat([{
             squares,
@@ -91,6 +110,7 @@ const restart = (state) => {
         stepNumber: 0,
         xIsNext: true,
         isReverse: false,
+        mode: true
     }
 
 }
@@ -130,6 +150,10 @@ const gameReducer = (state = initState, action) => {
         case SORT:
             return {
                 ...state, isReverse: !state.isReverse
+            }
+        case CHANGE_MODE:
+            return {
+                ...state, mode: !state.mode
             }
         default:
             return state

@@ -8,6 +8,8 @@ import ChatForm from './ChatForm/ChatForm';
 import io from 'socket.io-client';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
+import { Spinner, Button } from 'react-bootstrap';
+
 
 
 let socket;
@@ -17,7 +19,8 @@ const Game = class extends React.PureComponent {
     constructor(props) {
         super(props)
 
-
+        if (this.props.mode === true)
+            return
         socket.on('moveMade', (data) => {
             const { user, id } = data;
             console.log('user' + user);
@@ -33,13 +36,35 @@ const Game = class extends React.PureComponent {
 
         })
 
+        socket.on('surrendered', (data) => {
+            alert(data);
+            this.setState({ message: data, hasWinner: true });
+        })
+
+        socket.on('roomData', (data) => {
+            const { room, users, messageGame } = data;
+            if (users.length === 2) {
+                this.setState({
+                    waiting: false
+                })
+            }
+
+            // this.props.isWaiting = users.length === 2 ? false : null
+        })
         this.state = {
             myTurn: true,
             player: '',
+            message: '',
+            hasWinner: false,
+            waiting: true,
+
         }
     }
 
     componentDidMount() {
+        if (this.props.mode === true)
+            return
+
         const { name, room } = queryString.parse(this.props.location.search);
         socket.emit('join', { name: name, room: room + '12' }, (error) => {
             console.log('Game is running socket joining')
@@ -57,13 +82,22 @@ const Game = class extends React.PureComponent {
 
 
     }
+    surrender() {
+        alert('sur')
+        const { name } = queryString.parse(this.props.location.search)
+
+        socket.emit('surrender', name);
+        console.log('Da gui surrender')
+
+
+    }
 
     render() {
 
 
+        const { history, stepNumber, xIsNext, isReverse, restart, mode, clickSquare } = this.props;
+        const { name } = queryString.parse(this.props.location.search)
 
-
-        const { history, stepNumber, xIsNext, isReverse, restart } = this.props;
         const current = history[stepNumber];
         const squares = current.squares.slice();
         const winner = calculateWinner(squares);
@@ -83,33 +117,56 @@ const Game = class extends React.PureComponent {
             const desc = move ? `Go to move #${move} (${step.location})` : 'Go to game start!';
             return (
                 <li key={move.id} >
-                    <button type="button" style={{ marginTop: 5 }} className="btn btn-sm btn-outline-dark" id={move} onClick={() => this.props.jumpTo(move)}>{desc}</button>
+                    <button type="button" style={{ marginTop: 5 }}
+                        className="btn btn-sm btn-outline-dark" id={move}
+                        onClick={() => mode ? this.props.jumpTo(move) : null}>{desc}</button>
                 </li>
             );
         })
         return (
-            <div className="game">
+            <div>
+                <div className="game" hidden={this.state.waiting ? true : null}>
 
-                <div className="game-board">
-                    <Board squares={squares} onClick={(i) => this.clickAt(i)} winner={winner && winner.winLocation} />
-                </div>
-                <div className="game-info">
-                    <div className="row">
-                        <div className="col-6 status">
-                            {status}
+                    <div className="game-info">
+                        <div className="row">
+                            <div className="col-12 status">
+                                {status}
+                            </div>
+                            <div className="col-12 btn-status">
+                                {mode ? <button className="btn btn-sm btn-outline-success text-center"
+                                    type="button"
+                                    onClick={() => restart()}>Restart</button>
+                                    : <button className="btn btn-sm btn-outline-danger text-center"
+                                        type="button"
+                                        onClick={() => this.surrender()}>Surrender</button>}
+                            </div>
+                            <div className="col-12 btn-status">
+                                <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => this.props.sort()}>Sort step</button>
+                            </div>
                         </div>
-                        <div className="col-3">
-                            <button className="btn btn-sm btn-outline-success" type="button" onClick={() => restart()}>Restart</button>
-                        </div>
-                        <div className="col-3">
-                            <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => this.props.sort()}>Sort step</button>
-                        </div>
+                        <ol reversed={isReverse ? 'reverse' : ''}>{isReverse ? moves.reverse() : moves}</ol>
+
                     </div>
-                    <ol reversed={isReverse ? 'reverse' : ''}>{isReverse ? moves.reverse() : moves}</ol>
+                    <div className="game-board" >
+                        <Board squares={squares} onClick={(i) => mode ? clickSquare(i) : this.clickAt(i)}
+                            winner={winner && winner.winLocation} />
+                    </div>
 
+                    <div className="game-chat">
+                        {mode ? null : <ChatForm />}
+                    </div>
                 </div>
-                <div>
-                    <ChatForm />
+                <div className="align-content-center waiting" hidden={!this.state.waiting ? true : null}>
+                    <Button variant="primary" disabled className='text-center'>
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        Waiting for component...
+                    </Button>
                 </div>
             </div>
         );
@@ -122,6 +179,8 @@ const mapStateToProps = (state) => ({
     xIsNext: state.game.xIsNext,
     stepNumber: state.game.stepNumber,
     isReverse: state.game.isReverse,
+    mode: state.game.mode,
+    isWaiting: false
 })
 
 const mapDispatchToProps = (dispatch) => ({

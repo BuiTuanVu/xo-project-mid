@@ -18,3 +18,7 @@ export const jumpTo = (id) => ({
     type: types.JUMP_TO,
     id
 });
+
+export const changeMode = () => ({
+    type: types.CHANGE_MODE,
+})

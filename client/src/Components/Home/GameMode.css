@@ -1,0 +1,18 @@
+.back-ground__Mode {
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+
+  margin: 20px auto;
+  color: aliceblue;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.body_Mode {
+  background-color: #034e65;
+}
+#btn-mode {
+  background-color: #2a4242;
+}

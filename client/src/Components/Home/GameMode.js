@@ -1,32 +1,40 @@
 import React, { useState } from 'react';
 import { Link, BrowserRouter, Route, Switch } from "react-router-dom";
 import { Card, Button } from 'react-bootstrap';
-import logoxo from '../../logoxo.png';
-import './Home.css'
+import logo2 from '../../logo2.png';
+import './GameMode.css'
 import { connect } from 'react-redux'
+import { changeMode } from '../../Actions/gameActions';
 
 
 
-const GameMode = ({ user }) => {
+const GameMode = ({ user, changeMode }) => {
     const [name, setName] = useState(user.user.username);
-    const [room, setRoom] = useState('room1');
+    const [room, setRoom] = useState('2201');
 
     console.log(user.user.username)
     return (
 
         < div >
-            <Card className="back-ground" >
-                <Card.Img variant="top" src={logoxo} />
-                <Card.Body>
+            <Card className="back-ground__Mode" >
+                <Card.Img variant="top" src={logo2} />
+                <Card.Body className="body_Mode">
+
                     <Card.Title className="text-center">Choose mode you want</Card.Title>
-
-
-                    <Button type='submit' as={Link} to={`/home/game?name=${name}&room=${room}`}
+                    <Button type='submit' as={Link} to={'/home/game'}
                         className="col-12 mt-3"
                         variant="primary"
                         id="btn-mode"
 
-                    >Play with others</Button>
+                    >Play with machine</Button>
+                    <Button type='submit' as={Link} to={`/home/game?name=${name}&room=${room}`}
+                        className="col-12 mt-3"
+                        variant="primary"
+                        id="btn-mode"
+                        onClick={() => changeMode()}
+
+                    >Play with other</Button>
+
 
                 </Card.Body>
             </Card>
@@ -38,6 +46,8 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 
 })
+const mapDispatchToProps = (dispatch) => ({
+    changeMode: () => dispatch(changeMode())
+});
 
-
-export default connect(mapStateToProps)(GameMode);
+export default connect(mapStateToProps, mapDispatchToProps)(GameMode);

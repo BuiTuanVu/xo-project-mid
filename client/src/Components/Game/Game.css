@@ -43,14 +43,13 @@ ul {
 
 .square {
   background: #fff;
-  border: 1px solid rgb(66, 18, 128);
+  border: 1.1px solid rgb(66, 18, 128);
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+
   padding: 0;
   text-align: center;
   width: 34px;
@@ -68,9 +67,27 @@ ul {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
+  flex: auto;
+  text-align: unset;
 }
 
 .game-info {
-  margin-left: 20px;
-  text-align: left;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.game-chat {
+  margin-left: 30px;
+}
+.btn-status {
+  margin: 5px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.waiting {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 }

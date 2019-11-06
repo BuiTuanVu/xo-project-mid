@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, BrowserRouter, Route, Switch } from "react-router-dom";
 import { Card, Button } from 'react-bootstrap';
 import logoxo from '../../logoxo.png';
-import './Home.css'
+
 import Menu from '../Menu/Menu';
 import Game from '../Game/Game'
 import GameMode from './GameMode';
