@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 export const register = (userData, history) => dispatch => {
     axios.post('http://localhost:4000/user/register', {
+        fullname: userData.fullname,
         username: userData.username,
         password: userData.password,
     })
@@ -32,6 +33,8 @@ export const login = userData => dispatch => {
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(loginSuccess(decoded));
+            console.log(localStorage)
+
         })
         .catch(err =>
             dispatch({
@@ -57,5 +60,6 @@ export const logOut = () => dispatch => {
     localStorage.removeItem("jwtToken");
     setAuthToken(false);
     dispatch(loginSuccess({}))
+
 
 }

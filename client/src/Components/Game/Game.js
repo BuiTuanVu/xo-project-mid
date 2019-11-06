@@ -39,21 +39,27 @@ const Game = class extends React.PureComponent {
         socket.on('surrendered', (data) => {
             alert(data);
             this.setState({ message: data, hasWinner: true });
+
         })
 
         socket.on('roomData', (data) => {
             const { room, users, messageGame } = data;
+
+            console.log(users[0]);
+            console.log(users[1]);
             if (users.length === 2) {
+                alert(`${users[0].name} go first!`)
                 this.setState({
                     waiting: false
                 })
             }
+            this.setState({ playerFirst: users[0].name })
 
             // this.props.isWaiting = users.length === 2 ? false : null
         })
         this.state = {
             myTurn: true,
-            player: '',
+            playerFirst: '',
             message: '',
             hasWinner: false,
             waiting: true,

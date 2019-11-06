@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { login } from '../../Actions/authActions';
+import { login, loginSuccess } from '../../Actions/authActions';
 import { connect } from 'react-redux';
 
 class SignInForm extends Component {
@@ -11,7 +11,7 @@ class SignInForm extends Component {
     this.state = {
       username: '',
       password: '',
-      errors: "",
+      errors: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -46,13 +46,12 @@ class SignInForm extends Component {
   render() {
 
     const { errors } = this.state;
-
-
     return (
       <div className="FormCenter">
-        <h5 variant="danger">
+        {errors !== '' ? < Alert variant="danger">
           {errors}
-        </h5>
+        </Alert> : null
+        }
 
         <Form onSubmit={this.onSubmit} className="FormFields">
 
@@ -64,6 +63,7 @@ class SignInForm extends Component {
               placeholder="Enter your username"
               name="username"
               autoComplete="off"
+              required
               value={this.state.username}
               onChange={this.onChange} />
           </Form.Group>
@@ -72,6 +72,7 @@ class SignInForm extends Component {
             <Form.Label className="FormField__Label" htmlFor="password">Password</Form.Label>
             <Form.Control type="password"
               id="password"
+              required
               className="FormField__Input"
               placeholder="Enter your password"
               name="password"
@@ -84,15 +85,34 @@ class SignInForm extends Component {
             <Button type="submit" className="FormField__Button mr-20">Sign In</Button> <Link to="/" className="FormField__Link">Create an account</Link>
           </Form.Group>
         </Form>
-        <div className="row btn-social">
-          <a href="#" className="btn-face" >
+        <div className=" btn-social">
+          {/* <a href="#" className="btn-face" >
             <i className="fa fa-facebook-official" />
             Facebook
                 </a>
           <a href="#" className="btn-google" >
             <i className="fa fa-google" />
             Google
-                </a>
+                </a> */}
+
+          {/* <FacebookLogin textButton="Facebook login"
+            icon="fa fa-facebook-official"
+            appId="2728363200541180" //APP ID NOT CREATED YET
+            fields="name,email,picture"
+            callback={responseFacebook}
+          />
+
+
+
+          <GoogleLogin className='gg-btn'
+            clientId="650653553725-17na04pnhn0ubafic0047q4tjlr20ti0.apps.googleusercontent.com" //CLIENTID NOT CREATED YET
+            buttonText="GOOGLE LOGIN"
+            onSuccess={
+              responseGoogle
+            }
+            onFailure={responseGoogle}
+          /> */}
+
         </div>
       </div>
     );
@@ -101,9 +121,15 @@ class SignInForm extends Component {
 
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+
 });
-export default connect(
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (user) => dispatch(login(user)),
+  loginSuccess: (data) => dispatch(loginSuccess(data))
+})
+export default withRouter(connect(
   mapStateToProps,
-  { login }
-)(withRouter(SignInForm));
+  mapDispatchToProps
+)(SignInForm));

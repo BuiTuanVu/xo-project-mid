@@ -10,6 +10,7 @@ class SignUpForm extends Component {
     super(props);
 
     this.state = {
+      fullname: '',
       username: '',
       password: '',
       password2: '',
@@ -36,6 +37,7 @@ class SignUpForm extends Component {
   onSubmit(e) {
     e.preventDefault();
     const user = {
+      fullname: this.state.fullname,
       username: this.state.username,
       password: this.state.password
     }
@@ -67,16 +69,47 @@ class SignUpForm extends Component {
           <div className="FormCenter">
             <Form onSubmit={this.onSubmit}>
               <Form.Group>
-                <Form.Label className="FormField__Label" htmlFor="name">Username</Form.Label>
-                <Form.Control type="text" id="username" className="FormField__Input" placeholder="Enter your full name" name="username" value={this.state.username} onChange={this.onChange} autoComplete="off" />
+                <Form.Label className="FormField__Label" htmlFor="fullname">Full name</Form.Label>
+                <Form.Control type="text" id="fullname"
+                  className="FormField__Input"
+                  placeholder="Enter your full name"
+                  name="fullname"
+                  required
+                  value={this.state.fullname}
+                  onChange={this.onChange} autoComplete="off" />
               </Form.Group>
               <Form.Group>
-                <Form.Label className="FormField__Label" htmlFor="password">Password</Form.Label>
-                <Form.Control type="password" id="password" className="FormField__Input" placeholder="Enter your password" name="password" value={this.state.password} onChange={this.onChange} />
+                <Form.Label className="FormField__Label" htmlFor="name">Username</Form.Label>
+                <Form.Control type="text" id="username"
+                  className="FormField__Input"
+                  placeholder="Enter your username"
+                  name="username"
+                  required
+                  value={this.state.username}
+                  onChange={this.onChange} autoComplete="off" />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label className="FormField__Label"
+                  htmlFor="password">Password</Form.Label>
+                <Form.Control
+                  type="password" id="password"
+                  className="FormField__Input"
+                  placeholder="Enter your password"
+                  name="password"
+                  required
+                  value={this.state.password}
+                  onChange={this.onChange} />
               </Form.Group>
               <Form.Group >
                 <Form.Label className="FormField__Label" htmlFor="username">Confirm Password</Form.Label>
-                <Form.Control type="password" id="password2" className="FormField__Input" placeholder="Confirm your password" name="password2" value={this.state.password2} onChange={this.onChange} />
+                <Form.Control type="password"
+                  id="password2"
+                  className="FormField__Input"
+                  placeholder="Confirm your password"
+                  name="password2"
+                  required
+                  value={this.state.password2}
+                  onChange={this.onChange} />
               </Form.Group>
 
 

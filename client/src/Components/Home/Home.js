@@ -6,6 +6,7 @@ import logoxo from '../../logoxo.png';
 import Menu from '../Menu/Menu';
 import Game from '../Game/Game'
 import GameMode from './GameMode';
+import Profile from '../pages/Profile';
 
 export default function Home() {
 
@@ -21,7 +22,9 @@ export default function Home() {
                     <Route path="/home/game">
                         <Game />
                     </Route>
-
+                    <Route path="/home/profile">
+                        <Profile />
+                    </Route>
                 </Switch>
             </main>
         </div>

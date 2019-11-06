@@ -19,8 +19,8 @@ router.post('/register', async (req, res, next) => {
   //Hash password
 
 
-  const { username, password } = req.body;
-  const user = new User({ username, password });
+  const { fullname, username, password } = req.body;
+  const user = new User({ fullname, username, password });
 
   User.findOne({ username: req.body.username })
     .then(exist => {

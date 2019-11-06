@@ -44,7 +44,7 @@ io.on('connect', (socket) => {
       messageGame = 'Waiting for opponent!'
 
     } else {
-      messageGame = 'Ready game!'
+      messageGame = `Ready game! ${users[0]} go first!`
     };
     io.to(user.room).emit('roomData', { room: user.rom, users: getUsersInRoom(user.room), messageGame });
 
