@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Board from './Board';
 import './Game.css';
 import { calculateWinner } from '../../Reducers/gameReducer';
-import { clickSquare, jumpTo, sort, restart } from '../../Actions/gameActions';
+import { clickSquare, jumpTo, sort, restart, restartModeMulti } from '../../Actions/gameActions';
 import ChatForm from './ChatForm/ChatForm';
 import io from 'socket.io-client';
 import queryString from 'query-string';
@@ -38,8 +38,8 @@ const Game = class extends React.PureComponent {
 
         socket.on('surrendered', (data) => {
             alert(data);
-            this.setState({ message: data, hasWinner: true });
 
+            this.props.restartModeMulti()
         })
 
         socket.on('roomData', (data) => {
@@ -193,7 +193,8 @@ const mapDispatchToProps = (dispatch) => ({
     clickSquare: (id) => dispatch(clickSquare(id)),
     jumpTo: (id) => dispatch(jumpTo(id)),
     sort: () => dispatch(sort()),
-    restart: () => dispatch(restart())
+    restart: () => dispatch(restart()),
+    restartModeMulti: () => dispatch(restartModeMulti()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Game));

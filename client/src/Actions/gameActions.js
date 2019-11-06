@@ -10,6 +10,10 @@ export const restart = () => ({
     type: types.RESTART
 });
 
+export const restartModeMulti = () => ({
+    type: types.RESTART_MODE_MULTI
+})
+
 export const sort = () => ({
     type: types.SORT
 });

@@ -1,4 +1,4 @@
-import { CLICK_SQUARE, RESTART, SORT, JUMP_TO, CHANGE_MODE } from '../Constants/types';
+import { CLICK_SQUARE, RESTART, SORT, JUMP_TO, CHANGE_MODE, RESTART_MODE_MULTI } from '../Constants/types';
 import io from 'socket.io-client';
 //import { minimax } from './aiTurn';
 import { findAiMove } from './AIPlayer'
@@ -114,6 +114,20 @@ const restart = (state) => {
     }
 
 }
+const restartModeMulti = (state) => {
+    const history = state.history.slice()[0];
+
+    const squares = history.squares.slice();
+    return {
+        history: [{ squares }],
+        stepNumber: 0,
+        xIsNext: true,
+        isReverse: false,
+        mode: false
+    }
+
+}
+
 
 const jump = (id) => {
     const temp = document.querySelectorAll('.chosen-btn');
@@ -154,6 +168,10 @@ const gameReducer = (state = initState, action) => {
         case CHANGE_MODE:
             return {
                 ...state, mode: !state.mode
+            }
+        case RESTART_MODE_MULTI:
+            return {
+                ...restartModeMulti(state)
             }
         default:
             return state
