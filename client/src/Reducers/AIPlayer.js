@@ -3,7 +3,7 @@ var maxPlayer = 'X';
 var minPlayer = 'O';
 
 //Test for winner
-function winner(board, player) {
+const winner = (board, player) => {
     const size = Math.sqrt(board.length);
 
     for (let i = 0; i < size; i += 1) {
@@ -18,38 +18,29 @@ function winner(board, player) {
                 && board[index] === board[index + 4])) {
                 return true
             }
-            if (((board[index - size] === null || board[index + 5 * size] === null)
+            else if (((board[index - size] === null || board[index + 5 * size] === null)
                 && board[index] === player
                 && board[index] === board[index + size * 1]
                 && board[index] === board[index + size * 2]
                 && board[index] === board[index + size * 3]
                 && board[index] === board[index + size * 4])) {
-                return {
-                    winLocation: [index, index + size * 1, index + size * 2, index + size * 3, index + size * 4],
-                    winPlayer: board[index]
-                };
+                return true
             }
-            if (((board[index - size * 1 - 1] === null || board[index + size * 5 + 5] === null)
+            else if (((board[index - size * 1 - 1] === null || board[index + size * 5 + 5] === null)
                 && board[index] === player
                 && board[index] === board[index + size * 1 + 1]
                 && board[index] === board[index + size * 2 + 2]
                 && board[index] === board[index + size * 3 + 3]
                 && board[index] === board[index + size * 4 + 4])) {
-                return {
-                    winLocation: [index, index + size * 1 + 1, index + size * 2 + 2, index + size * 3 + 3, index + size * 4 + 4],
-                    winPlayer: board[index]
-                };
+                return true
             }
-            if (((board[index - size * 1 + 1] === null || board[index + size * 5 - 5] === null)
+            else if (((board[index - size * 1 + 1] === null || board[index + size * 5 - 5] === null)
                 && board[index] === player
                 && player === board[index + size * 1 - 1]
                 && player === board[index + size * 2 - 2]
                 && player === board[index + size * 3 - 3]
                 && player === board[index + size * 4 - 4])) {
-                return {
-                    winLocation: [index, index + size * 1 - 1, index + size * 2 - 2, index + size * 3 - 3, index + size * 4 - 4],
-                    winPlayer: board[index]
-                };
+                return true
             }
         }
 
@@ -57,14 +48,14 @@ function winner(board, player) {
     return null;
 }
 
-function copyBoard(board) {
+const copyBoard = (board) => {
     //This returns a new copy of the Board and ensures that you're only
     //manipulating the copies and not the primary board.
-    return board.slice(0);
+    return board.slice();
 }
 
 //Determine if a move is valid and return the new board state
-function validMove(move, player, board) {
+const validMove = (move, player, board) => {
     var newBoard = copyBoard(board);
     if (newBoard[move] === null) {
         newBoard[move] = player;
@@ -77,7 +68,7 @@ function validMove(move, player, board) {
 //provides a winning result (or tie if no win possible)
 
 
-function minScore(board) {
+const minScore = (board) => {
     if (winner(board, 'X')) {
         return 10;
     } else if (winner(board, 'O')) {
@@ -86,7 +77,7 @@ function minScore(board) {
     } else {
         var bestMoveValue = 100;
         let move = 0;
-        for (var i = 0; i < board.length; i++) {
+        for (var i = 0; i < board.length; i += 1) {
             var newBoard = validMove(i, minPlayer, board);
             if (newBoard) {
                 var predictedMoveValue = maxScore(newBoard);
@@ -101,16 +92,17 @@ function minScore(board) {
     }
 }
 
-function maxScore(board) {
+const maxScore = (board) => {
     if (winner(board, 'X')) {
         return 10;
-    } else if (winner(board, 'O')) {
+    }
+    else if (winner(board, 'O')) {
         return -10;
 
     } else {
         var bestMoveValue = -100;
         let move = 0;
-        for (var i = 0; i < board.length; i++) {
+        for (var i = 0; i < board.length; i += 1) {
             var newBoard = validMove(i, maxPlayer, board);
             if (newBoard) {
                 var predictedMoveValue = minScore(newBoard);

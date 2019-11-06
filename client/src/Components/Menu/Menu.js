@@ -26,7 +26,7 @@ class Menu extends Component {
         return (
             <div>
                 <Navbar collapseOnSelect variant="dark" expand="lg" id="menu-nav" style={{ backgroundColor: '#034E65' }}>
-                    <Navbar.Brand as={Link} to="/">Home</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/home">Home</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">

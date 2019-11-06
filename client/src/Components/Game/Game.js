@@ -18,9 +18,21 @@ socket = io(ENDPOINT);
 const Game = class extends React.PureComponent {
     constructor(props) {
         super(props)
+        this.state = {
+            myTurn: true,
+            playerFirst: '',
+            message: '',
+            hasWinner: false,
+            waiting: true,
 
-        if (this.props.mode === true)
+        }
+        if (this.props.mode === true) {
+            this.setState({
+                waiting: false
+            })
             return
+        }
+
         socket.on('moveMade', (data) => {
             const { user, id } = data;
             console.log('user' + user);
@@ -57,19 +69,17 @@ const Game = class extends React.PureComponent {
 
             // this.props.isWaiting = users.length === 2 ? false : null
         })
-        this.state = {
-            myTurn: true,
-            playerFirst: '',
-            message: '',
-            hasWinner: false,
-            waiting: true,
 
-        }
     }
 
     componentDidMount() {
-        if (this.props.mode === true)
+        if (this.props.mode === true) {
+            this.setState({
+                waiting: false
+            })
             return
+        }
+
 
         const { name, room } = queryString.parse(this.props.location.search);
         socket.emit('join', { name: name, room: room + '12' }, (error) => {
@@ -162,7 +172,7 @@ const Game = class extends React.PureComponent {
                         {mode ? null : <ChatForm />}
                     </div>
                 </div>
-                <div className="align-content-center waiting" hidden={!this.state.waiting ? true : null}>
+                <div className="align-content-center waiting" hidden={this.state.waiting === false ? true : null}>
                     <Button variant="primary" disabled className='text-center'>
                         <Spinner
                             as="span"

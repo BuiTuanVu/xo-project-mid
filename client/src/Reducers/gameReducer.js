@@ -53,7 +53,21 @@ export const calculateWinner = (squares) => {
     return null;
 }
 
+const generateArrAroundPos = (pos) => {
+    const arr = new Array();
+    const size = 20;
+    for (let i = -2; i < 3; i += 1) {
+        arr.push(pos - 2 * size + i);
+        arr.push(pos + 2 * size + i);
+        arr.push(pos - size + i);
+        arr.push(pos + size + i);
+        arr.push(pos + i);
+    }
+    return arr;
 
+}
+
+const random = arr => arr[Math.floor(Math.random() * arr.length)];
 
 const changeSquares = (state, i) => {
     const history = state.history.slice(0, state.stepNumber + 1);
@@ -81,9 +95,12 @@ const changeSquares = (state, i) => {
 
         squares[i] = 'X';
         do {
-            var random = Math.floor(Math.random() * 200);
-        } while (squares[random] !== null)
-        squares[random] = 'O';
+            // var a = i - 5;
+            // var b = i + 5;
+            // var random = Math.floor(Math.random() * (a - b + 1)) + a;
+            var pos = random(generateArrAroundPos(i));
+        } while (squares[pos] !== null)
+        squares[pos] = 'O';
         state.xIsNext = true;
 
     }
